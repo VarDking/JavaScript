@@ -1,4 +1,20 @@
 (function (exports, undefined) {
+    var isUndefined = function (obj) {
+        return typeof(obj) === 'undefined';
+    };
+
+    var isNull = function (obj) {
+        return obj === null;
+    };
+
+    var isNullOrUndefined = function (obj) {
+        return (isUndefined(obj) || isNull(obj));
+    };
+
+    var isNumeric = function (obj) {//代码复制自JQuery
+        return !isNaN(parseFloat(obj)) && isFinite(obj);
+    };
+
     //<editor-fold desc="string">
 
     exports.string = {};
@@ -43,6 +59,22 @@
             return '{' + arr.join(',') + '}';
         }
     };
+
+    var trimBeginExpression = /^\s\s*/g;
+    exports.string.trimStart = function (value) {
+        return String(value).replace(trimBeginExpression, "");
+    };
+
+    var trimEndExpression = /\s\s*$/g;
+    exports.string.trimEnd = function (value) {
+        return String(value).replace(trimEndExpression, "");
+    };
+
+    exports.string.trim = function (value) {
+        return String(value).replace(trimBeginExpression, "").replace(trimEndExpression, "");
+    };
+
+
     //</editor-fold>
 
     //<editor-fold desc="array">
@@ -60,24 +92,35 @@
     };
 
     exports.array.find = function (array, propertyName, propertyValue) {
-        var returnValue = [];
+        var returnList = [];
         for (var i = 0; i < array.length; i++) {
             var item = array[i];
             if (item[propertyName] === propertyValue) {
-                returnValue.push(item);
+                returnList.push(item);
             }
         }
-        return returnValue;
+        return returnList;
     };
+
+    exports.array.select = function (array, propertyName) {
+        var returnList = [];
+        for (var i = 0; i < array.length; i++) {
+            var item = array[i];
+            returnList.push(item[propertyName]);
+        }
+        return returnList;
+    };
+
     //</editor-fold>
 
+    //<editor-fold desc="dateTime">
     exports.dateTime = {};
 
-    exports.dateTime.format = function (dt, format) {
+    exports.dateTime.getDateTimeFormat = function (dt, format) {
         var o = {
             "M+": dt.getMonth() + 1, //month
             "d+": dt.getDate(), //day
-            "h+": dt.getHours(), //hour
+            "H+": dt.getHours(), //hour
             "m+": dt.getMinutes(), //minute
             "s+": dt.getSeconds(), //second
             "q+": Math.floor((dt.getMonth() + 3) / 3), //quarter
@@ -94,11 +137,35 @@
         return format;
     };
 
-    exports.dateTime.getNowDateStr = function (format) {
-        if (!!format) format = 'yyyy-MM-dd';
+    exports.dateTime.now = function (format) {
+        if (!format) format = 'yyyy-MM-dd';
         var d = new Date();
-        return this.format(d, format);
+        return this.getDateTimeFormat(d, format);
     }
+    //</editor-fold>
+
+    //<editor-fold desc="convert">
+    exports.convert = {};
+
+    exports.convert.toInt = function (obj, defaultValue) {
+        var value = (isNullOrUndefined(defaultValue) || !isNumeric(defaultValue)) ? 0 : defaultValue;
+        if (isNumeric(obj)) {
+            value = parseInt(obj);
+        }
+        return value;
+    };
+
+    exports.convert.toBool = function (obj, defaultValue) {
+        var value = isNullOrUndefined(defaultValue) ? false : defaultValue;
+        if (obj != null && obj != undefined) {
+            var temp = $.trim(obj.toString()).toLocaleLowerCase();
+            if (temp === "true") value = true;
+            else if (temp === "false") value = false;
+        }
+        return value;
+    };
+
+    //</editor-fold>
 
 })(
         typeof exports !== "undefined" ?
