@@ -10,6 +10,7 @@
         $(document).ready(function () {
             example1();
             example2();
+            example3();
         });
 
         function example1() {
@@ -50,6 +51,20 @@
             $('#example2 p').html(html);
         }
 
+        function example3() {
+            var list = [
+                {name: '小猪', price: 11},
+                {name: '小猫', price: 12},
+                {name: '小狗', price: 13},
+                {name: '小鸡', price: 14},
+                {name: '小鸭', price: 15}
+            ];
+            var tpl = $('script[type="text/tpl-example1"]').html();
+            var compiledTpl = juicer(tpl);
+            var html = compiledTpl.render(list);
+            $('#example3 p').html(html);
+        }
+
     </script>
 </head>
 <body>
@@ -60,6 +75,11 @@
 </div>
 <div id="example2">
     <h1>example2</h1>
+
+    <p></p>
+</div>
+<div id="example3">
+    <h1>example3</h1>
 
     <p></p>
 </div>
