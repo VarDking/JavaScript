@@ -1,9 +1,21 @@
 var helper = (function () {
     var obj = {};
     obj.getGroupInfoList = function (reg, text) {
+        var checkResult = function (result) {
+            var isOk = false;
+            if (result != null) {
+                isOk = true;
+                if (result.length === 1 && result[0] === '') {
+                    //解决输入$时会出现死循环的问题
+                    isOk = false;
+                }
+            }
+            return isOk;
+        }
+
         var groupInfoList = [];
         var result;
-        while ((result = reg.exec(text)) != null) {
+        while (checkResult(result = reg.exec(text))) {
             var groupInfo = {};
             groupInfo.sourceText = result[0];
             groupInfo.groupText = result[1];
