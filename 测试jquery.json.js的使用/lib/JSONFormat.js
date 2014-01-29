@@ -4,7 +4,7 @@ var JSONFormat = (function(){
     function format(object, indent_count){
         var html_fragment = '';
         switch(_typeof(object)){
-            case 'Null' :0
+            case 'Null' :
                 html_fragment = _format_null(object);
                 break;
             case 'Boolean' :
@@ -26,7 +26,7 @@ var JSONFormat = (function(){
         return html_fragment;
     };
 
-    function _format_null(object){
+    function _format_null(){
         return '<span class="json_null">null</span>';
     }
 
@@ -40,7 +40,7 @@ var JSONFormat = (function(){
 
     function _format_string(object){
         if(0 <= object.search(/^http/)){
-            object = '<a href="' + object + '" target="_blank" class="json_link">' + object + '</a>'
+            object = '<a href="' + object + '" target="_blank" class="json_link">' + object + '</a>';
         }
         return '<span class="json_string">"' + object + '"</span>';
     }
@@ -107,11 +107,11 @@ var JSONFormat = (function(){
     };
 
     _JSONFormat.prototype = {
-        constructor : JSONFormat,
-        toString : function(){
+        constructor: JSONFormat,
+        toString: function() {
             return format(this.data, 1);
         }
-    }
+    };
 
     return _JSONFormat;
 
