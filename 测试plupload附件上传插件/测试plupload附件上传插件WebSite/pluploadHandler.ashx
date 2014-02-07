@@ -13,7 +13,9 @@ public class pluploadHandler : IHttpHandler
 
         if (context.Request.Files.Count > 0)
         {
-            var aHttpPostedFile = context.Request.Files[0];
+            var aOne = context.Request["one"];//NOTE:通过这种方式来获取post过来的数据
+
+            var aHttpPostedFile = context.Request.Files[0];//NOTE:通过这种方式来获取用户上传的文件
 
             //aHttpPostedFile.SaveAs(aFileFullPath);//TODO:通过这种方式将上传的文件保存到服务器
 
