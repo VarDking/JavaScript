@@ -1,8 +1,28 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+}
+
+#lyn-loading-container {
+    width: 100%;
+    height: 100%;
+    background-color: #000000;
+    opacity: 0.5;
+    position: fixed;
+    top: 0;
+    left: 0;
+}
 
 #lyn-loading {
     width: 200px;
     height: 80px;
     margin: 0 auto;
+    position: fixed;
+    top: 10%;
+    left: 40%;
 }
 
 #lyn-loading span {
